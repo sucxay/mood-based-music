@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mood Music — Find Songs That Match Your Mood</title>
+  <meta name="description" content="Discover music that matches how you feel. Type your mood and get curated song recommendations with instant YouTube playback." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <!-- ========== THEME TOGGLE (GLOBAL) ========== -->
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+    <svg class="icon-sun" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06a.996.996 0 000 1.41.996.996 0 001.41 0l1.06-1.06z"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+  </button>
+
+  <!-- ========== TOAST ========== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ============================================================
+       PAGE 1 — LOGIN / SIGNUP
+       ============================================================ -->
+  <section class="page" id="page-login">
+    <div class="login-container">
+
+      <!-- Brand -->
+      <div class="app-brand">
+        <img src="assets/logo.svg" alt="Mood Music Logo" class="logo" />
+        <h1>Mood<span>Music</span></h1>
+        <p>Feel the music that matches your mood</p>
+      </div>
+
+      <!-- Auth Card -->
+      <div class="auth-card">
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login">Log In</button>
+          <button class="auth-tab" id="tab-signup">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <form class="auth-form active" id="form-login">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn btn-primary">Log In</button>
+        </form>
+
+        <!-- Signup Form -->
+        <form class="auth-form" id="form-signup">
+          <div class="form-group">
+            <label for="signup-name">Full Name</label>
+            <input type="text" id="signup-name" placeholder="John Doe" autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" placeholder="Min 6 characters" autocomplete="new-password" />
+          </div>
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </form>
+
+        <!-- Divider -->
+        <div class="auth-divider">or</div>
+
+        <!-- Social / Guest -->
+        <button class="btn btn-google" id="btn-google">
+          <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Login with Google
+        </button>
+
+        <button class="btn btn-outline" id="btn-guest" style="margin-top: 0.625rem;">
+          Continue as Guest
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PAGE 2 — LANGUAGE PREFERENCE
+       ============================================================ -->
+  <section class="page" id="page-language">
+    <div class="language-container">
+      <h2>🎶 Which languages do you prefer?</h2>
+      <p>Select the languages you enjoy listening to. You can pick as many as you like.</p>
+
+      <div class="language-chips">
+        <button class="lang-chip" data-lang="English">🇬🇧 English</button>
+        <button class="lang-chip" data-lang="Hindi">🇮🇳 Hindi</button>
+        <button class="lang-chip" data-lang="Tamil">🎵 Tamil</button>
+        <button class="lang-chip" data-lang="Telugu">🎵 Telugu</button>
+        <button class="lang-chip" data-lang="Spanish">🇪🇸 Spanish</button>
+        <button class="lang-chip" data-lang="Korean">🇰🇷 Korean</button>
+        <button class="lang-chip" data-lang="Japanese">🇯🇵 Japanese</button>
+        <button class="lang-chip" data-lang="Punjabi">🎵 Punjabi</button>
+      </div>
+
+      <button class="btn btn-primary" id="btn-save-languages" style="max-width: 280px; margin: 0 auto;">
+        Save & Continue →
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PAGE 3 — MAIN PAGE (MOOD SEARCH)
+       ============================================================ -->
+  <section class="page" id="page-main">
+
+    <!-- Top Bar -->
+    <header class="main-topbar">
+      <div class="topbar-left">
+        <!-- Account -->
+        <div style="position: relative;">
+          <button class="account-btn" id="account-btn" aria-label="Account">G</button>
+          <div class="account-dropdown" id="account-dropdown">
+            <div class="user-name" id="user-name">Guest</div>
+            <div class="user-email" id="user-email">—</div>
+            <span class="membership-badge free" id="membership-badge">Free</span>
+            <div class="dropdown-divider"></div>
+            <button class="logout-btn" id="btn-logout">Log Out</button>
+          </div>
+        </div>
+
+        <!-- Brand -->
+        <div class="topbar-brand">
+          <img src="assets/logo.svg" alt="Mood Music" />
+          Mood<span>Music</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <a href="#" id="nav-about">About Us</a>
+        <a href="#" id="nav-pricing">Pricing</a>
+      </div>
+    </header>
+
+    <!-- Mood Search Hero -->
+    <div class="mood-hero">
+      <h2>How are you <span>feeling</span> right now?</h2>
+      <p class="subtitle">Type your mood and we'll find the perfect songs for you</p>
+
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input
+          type="text"
+          class="search-box"
+          id="mood-input"
+          placeholder="I'm feeling sad... / pumped up / in love..."
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="search-hint">
+        Try: <span>sad</span> <span>happy</span> <span>energetic</span> <span>romantic</span> <span>heartbroken</span> <span>chill</span> <span>party</span> <span>nostalgic</span>
+      </div>
+    </div>
+
+    <!-- Song Results -->
+    <div id="results-section" class="results-section"></div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-about">
+          <h4>Mood<span>Music</span></h4>
+          <p>Mood Music helps you discover songs that match exactly how you feel. Just type your mood and let the music find you. Powered by curated playlists across multiple languages and genres.</p>
+        </div>
+        <div class="footer-links">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="#" onclick="openModal('modal-about'); return false;">About Us</a></li>
+            <li><a href="#" onclick="openModal('modal-pricing'); return false;">Pricing</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h5>Contact</h5>
+          <p>hello@moodmusic.app</p>
+          <p>Made with ❤️ for music lovers</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 MoodMusic. All rights reserved.
+      </div>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       MODALS
+       ============================================================ -->
+
+  <!-- About Us Modal -->
+  <div class="modal-overlay" id="modal-about">
+    <div class="modal">
+      <h3>About MoodMusic</h3>
+      <p>MoodMusic is a passion project built to help you discover music that resonates with your emotions. We believe music is the universal language of feelings.</p>
+      <p>Simply type how you're feeling — happy, sad, energetic, heartbroken, or anything in between — and we'll curate a playlist of real songs from multiple languages that match your mood.</p>
+      <p>Our carefully handpicked catalog spans English, Hindi, Tamil, Telugu, Spanish, Korean, Japanese, and Punjabi — because great music has no language barrier. 🎶</p>
+      <button class="close-modal" onclick="closeModal('modal-about')">Got it</button>
+    </div>
+  </div>
+
+  <!-- Pricing Modal -->
+  <div class="modal-overlay" id="modal-pricing">
+    <div class="modal">
+      <h3>Pricing Plans</h3>
+      <p>Choose the plan that fits your vibe.</p>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h4>Free</h4>
+          <div class="price">$0<small>/month</small></div>
+          <ul>
+            <li>Mood-based search</li>
+            <li>All languages</li>
+            <li>YouTube playback</li>
+            <li>Dark & Light mode</li>
+          </ul>
+        </div>
+        <div class="pricing-card featured">
+          <h4>Pro</h4>
+          <div class="price">$4.99<small>/month</small></div>
+          <ul>
+            <li>Everything in Free</li>
+            <li>AI-powered mood detection</li>
+            <li>Unlimited playlists</li>
+            <li>Ad-free experience</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+      <button class="close-modal" onclick="closeModal('modal-pricing')">Close</button>
+    </div>
+  </div>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script src="js/songs.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/mood.js"></script>
+
+</body>
+</html>
